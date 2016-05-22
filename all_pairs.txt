@@ -1,0 +1,5 @@
+	Popov	1990	audi		190hp
+		Ippalitov	1985	bmw	180hp
+			Pronin	1986	lada	95hp
+		Viktorov	1976	jeep	305hp
+	Sidorov	1955	liga	500hp
