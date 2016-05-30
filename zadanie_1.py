@@ -9,86 +9,62 @@
 """
 
 def select_case(file_name, n=10):
-    import os.path, random            
+    import os.path, random, sys
 
-    new_file_name = os.path.splitext(file_name)[0] + '_res.txt'
-    after_cut = []
+    if not os.path.isfile(file_name):
+        print('Incorrect name of input file, or file does not exist')
+        sys.exit()
+    # Incorrect n
+    if type(n) is not int or n <= 0:
+        print('Incorrect n, type must be integer and n > 0')
+        sys.exit()
+        
+    count = 0
+    for line in open(file_name).readlines(  ):
+        count += 1
 
-    try:
-        # Count of lines in file
-        count = 0
-        for line in open(file_name).xreadlines(  ):
-            count += 1
-            
-        # Select n random line numbers
-        ch = random.sample(range(count), n)
+    if n > count:
+        print('Incorrect n, in select_case(file_name, n) 0 < n <', count)
+        sys.exit()
+    if n == count:
+        if input('Do you want cut all lines from input file?\
+                 \nprint yes to cuting or another to exit : ')!= 'yes':
+            sys.exit()
 
-        # Write n random lines to new file
-        # Use ch as list of number lines
-        with open(new_file_name, 'w') as cut:
-            with open(file_name) as until_cut:
-                for i,line in enumerate(until_cut):
-                    if i in ch:
-                        cut.write(line)
-                    else:
-                        after_cut.append(line)
-        with open(file_name, 'w') as f:
-            f.writelines(after_cut)
+    after_cut = []        
+    new_file_name = os.path.splitext(file_name)[0] + '_res.txt'    
 
-        print (os.path.abspath(new_file_name))
+    # Select n random line numbers
+    ch = random.sample(range(count), n)
+
+    # Write n random lines to new file
+    # Use ch as list of number lines
+    with open(new_file_name, 'w') as cut:
+        with open(file_name) as until_cut:
+            for i,line in enumerate(until_cut):
+                if i in ch:
+                    cut.write(line)
+                else:
+                    after_cut.append(line)
+    with open(file_name, 'w') as f:
+        f.writelines(after_cut)
+
+    print (os.path.abspath(new_file_name))
               
-    # Except case, when user attempts cut more lines,
-    # than is contained in the file.
-    except ValueError:
-        print('Count of lines in '+file_name+' = '+str(count)+
-              "\nselect_case('all_pairs.txt', n),"+
-              "here parametr n must be less than : "+
-              str(count)
-              )
 """
 
-Test at all_pairs.txt consist of:
+    Test cases:
 
-    case One Book Low Book Rating Product Date pairings
-    5 Hd | STB/Other LT | ST POL Rating L|C|C LM 5
-    9 Hd LT GTD Rati	ng L|C|C LM 1
-    7 All All GTD Rating L|C|C | Index LM 3
-    10 Hd | STB/Other | TTd LT | ST POL Rating L|C|C Expected 1
-    4 Hd | TTd LT POL Rating L|C|C Expected 5
-    2 Hd | STB/Other LT | ST POL Rating L|C|C LM 5
-    3 Hd LT GTD Ra	ting L|C|C LM 1
-    1 All All GTD Rating L|C|C | Index LM 3
-    8 Hd | STB/Other | TT	d LT | ST POL Rating L|C|C Expected 1
-    11 Hd | TTd LT POL Rating L|C|C Expected 5
-    case One Book Low Book Rating Product Date pairings
-    5 Hd | STB/Other LT | ST POL Rating L|C|C LM 5
-    9 Hd LT 	GTD Rating L|C|C LM 1
-    7 All All GTD Rating L|C|C | Index LM 3
-    10 Hd | STB/Other | TTd LT | ST POL Rating L|C|C Expected 1
-    4 Hd | TTd LT POL Rating L|C|C Expected 5
-    2 Hd | STB/Other LT | ST POL Rating L|C|C LM 5
-    3 Hd LT GTD Rat	ing L|C|C LM 1	
-    1 All All GTD Rating L|C|C | Index LM 3
-    8 Hd | STB/Other | TTd LT | ST POL Rating L|C|C Expected 1
-    11 Hd | TTd LT POL Rating L|C|C Expected 5
+    1)  Count of lines (count) in input file = 12,
+        select_case(file_name, n=10) --> cut 10 random lines to output file
 
-    >>> select_case('all_pairs.txt')
-    C:\Users\ProninA\andr_first\all_pairs_res.txt
+    2)  Count = 100, n = 100
+        Function request to cut all lines from input to output file
 
-Result at all_pairs_res.txt
+    3)  (n <= 0) or (n > count) or (n not integer)
+        Function repot about incorrect value of parametr n
 
-    5 Hd | STB/Other LT | ST POL Rating L|C|C LM 5
-    7 All All GTD Rating L|C|C | Index LM 3
-    3 Hd LT GTD Ra	ting L|C|C LM 1
-    11 Hd | TTd LT POL Rating L|C|C Expected 5
-    case One Book Low Book Rating Product Date pairings
-    9 Hd LT 	GTD Rating L|C|C LM 1
-    7 All All GTD Rating L|C|C | Index LM 3
-    2 Hd | STB/Other LT | ST POL Rating L|C|C LM 5
-    1 All All GTD Rating L|C|C | Index LM 3
-    8 Hd | STB/Other | TTd LT | ST POL Rating L|C|C Expected 1
-
-
+    4)  file_name at select_case(file_name, n=10) incorrect, or does not exist
+        Function repot abut incorrect value of parametr
 
 """
-    
