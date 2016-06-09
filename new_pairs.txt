@@ -1,5 +1,0 @@
-			audi		
-		Ippalitov		bmw	180hp
-			Pronin			
-		Viktorov		jeep	
-	Sidorov	1955		500h
